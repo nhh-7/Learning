@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "936f64325b2cc741",
+        "id": "dd9c9b58ff7d9d3f",
         "type": "tabs",
         "children": [
           {
-            "id": "ea6d7897de571ca8",
+            "id": "67a9e57d2e489ab0",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "3、排序检索数据.md",
-                "mode": "preview",
+                "file": "2、检索数据.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "3、排序检索数据"
+              "title": "2、检索数据"
             }
           }
         ]
@@ -160,6 +160,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:新建数据库": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
@@ -168,11 +169,21 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "ea6d7897de571ca8",
+  "active": "67a9e57d2e489ab0",
   "lastOpenFiles": [
-    "2、检索数据.md",
-    "3、排序检索数据.md",
     "1、使用MySQL.md",
+    "未命名 1.base",
+    "未命名.base",
+    "3、排序检索数据.md",
+    "2、检索数据.md",
+    "7、创建计算字段.md",
+    "8、使用数据处理函数.md",
+    "17、更新和删除数据.md",
+    "18、创建和操纵表.md",
+    "13、创建高级联结.md",
+    "9、汇总数据.md",
+    "imgs/Pasted image 20240725135911.png",
+    "imgs/Pasted image 20240725134622.png",
     "19、使用视图.md",
     "23、管理事务处理.md",
     "imgs/Pasted image 20240729150617.png",
@@ -183,19 +194,13 @@
     "imgs/Pasted image 20240725154742.png",
     "Mysql中常见的问题.md",
     "14、组合查询.md",
-    "7、创建计算字段.md",
-    "13、创建高级联结.md",
     "12、联结表.md",
     "6、用正则表达式 进行搜索.md",
-    "8、使用数据处理函数.md",
-    "9、汇总数据.md",
     "10、分组数据.md",
     "16、插入数据.md",
-    "18、创建和操纵表.md",
     "22、使用触发器.md",
     "21、使用游标.md",
     "20、使用存储过程.md",
-    "17、更新和删除数据.md",
     "15、全文本搜索.md",
     "11、使用子查询.md",
     "5、用通配符进行过滤.md",
@@ -203,8 +208,6 @@
     "26、数据库维护.md",
     "imgs/Pasted image 20240727220039.png",
     "imgs/Pasted image 20240726160804.png",
-    "imgs/Pasted image 20240726160837.png",
-    "imgs/Pasted image 20240725160826.png",
     "imgs"
   ]
 }

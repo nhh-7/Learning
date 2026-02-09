@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "4、操作文件和目录.md",
+                "file": "9、权限.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "4、操作文件和目录"
+              "title": "9、权限"
             }
           },
           {
@@ -41,40 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "12、vi入门.md",
-                "mode": "source",
+                "file": "35、数组.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "12、vi入门"
-            }
-          },
-          {
-            "id": "b82b346c07054385",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "13、定制提示符.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "13、定制提示符"
-            }
-          },
-          {
-            "id": "952d9f6c72f3aa68",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "15、存储介质.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "15、存储介质"
+              "title": "35、数组"
             }
           },
           {
@@ -83,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "16、联网.md",
+                "file": "3、探索Linux系统.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "16、联网"
+              "title": "3、探索Linux系统"
             }
           },
           {
@@ -385,7 +357,8 @@
               "title": "7、“Shell眼”看世界"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -404,7 +377,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "文件列表"
@@ -518,6 +492,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:新建数据库": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
@@ -526,43 +501,44 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "106c109c8be283d1",
+  "active": "825a9ad21b00cf5a",
   "lastOpenFiles": [
-    "3、探索Linux系统.md",
     "2、导航.md",
-    "assert/Pasted image 20240928232224.png",
-    "assert/Pasted image 20240925212831.png",
-    "assert/Pasted image 20240922165355.png",
-    "assert/Pasted image 20240919210846.png",
-    "assert/Pasted image 20240919204324.png",
-    "assert/Pasted image 20240918152813.png",
-    "assert/Pasted image 20240917233412.png",
-    "assert/Pasted image 20240917162430.png",
-    "assert/Pasted image 20240917233326.png",
-    "11、环境.md",
-    "10、进程.md",
-    "7、“Shell眼”看世界.md",
-    "6、重定向.md",
-    "5、和命令打交道.md",
     "4、操作文件和目录.md",
-    "8、高级键盘技巧.md",
-    "12、vi入门.md",
-    "17、查找文件.md",
-    "13、定制提示符.md",
-    "27、流程控制：if分支.md",
-    "26、自顶向下设计.md",
+    "3、探索Linux系统.md",
+    "36、其他命令.md",
+    "其中第一个字符是文件类型。.md",
+    "34、字符串与数字.md",
+    "33、流程控制：for循环.md",
+    "32、位置参数.md",
+    "31、流程控制：case分支.md",
+    "30、故障诊断.md",
+    "28、读取键盘输入.md",
+    "29、流程控制：while、until循环.md",
     "25、启动项目.md",
-    "24、编写第一个脚本.md",
-    "23、编译程序.md",
-    "22、打印.md",
-    "21、格式化输出.md",
-    "20、文本处理.md",
-    "19、正则表达式.md",
-    "18、归档和备份.md",
+    "17、查找文件.md",
     "16、联网.md",
     "15、存储介质.md",
+    "13、定制提示符.md",
+    "12、vi入门.md",
+    "11、环境.md",
+    "10、进程.md",
     "9、权限.md",
-    "assert/Pasted image 20241013232759.png",
+    "8、高级键盘技巧.md",
+    "7、“Shell眼”看世界.md",
+    "assert/Pasted image 20240919210846.png",
+    "6、重定向.md",
+    "5、和命令打交道.md",
+    "![[Pasted image 20240922222950.png.md",
+    "assert/Pasted image 20241010144625.png",
+    "assert/Pasted image 20241013104244.png",
+    "assert/Pasted image 20240920211517.png",
+    "assert/Pasted image 20240920211624.png",
+    "assert/Pasted image 20240917235059.png",
+    "assert/Pasted image 20240917234718.png",
+    "assert/Pasted image 20240917234651.png",
+    "assert/Pasted image 20240917233412.png",
+    "assert/Pasted image 20240917233349.png",
     "assert"
   ]
 }

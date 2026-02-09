@@ -1,8 +1,8 @@
-	![[Pasted image 20241013111542.png]]
+![[Pasted image 20241013111542.png]]
 	
 	
-	![[Pasted image 20241013111645.png]]
-	![[Pasted image 20241013111654.png]]
+![[Pasted image 20241013111645.png]]
+![[Pasted image 20241013111654.png]]
 	可以使用 | 作为分隔符，将多个模式组合在一起，形成or的关系。
 
 
