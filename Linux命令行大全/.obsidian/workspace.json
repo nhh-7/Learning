@@ -356,23 +356,9 @@
               "icon": "lucide-file",
               "title": "7、“Shell眼”看世界"
             }
-          },
-          {
-            "id": "d78ad90661525de5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "17、查找文件.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "17、查找文件"
-            }
           }
         ],
-        "currentTab": 25
+        "currentTab": 24
       }
     ],
     "direction": "vertical"
@@ -515,24 +501,24 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "d78ad90661525de5",
+  "active": "1ce9205277b98610",
   "lastOpenFiles": [
-    "18、归档和备份.md",
+    "12、vi入门.md",
+    "4、操作文件和目录.md",
+    "5、和命令打交道.md",
+    "7、“Shell眼”看世界.md",
+    "6、重定向.md",
     "17、查找文件.md",
+    "18、归档和备份.md",
     "16、联网.md",
     "15、存储介质.md",
     "13、定制提示符.md",
-    "12、vi入门.md",
     "11、环境.md",
     "10、进程.md",
     "9、权限.md",
     "8、高级键盘技巧.md",
-    "7、“Shell眼”看世界.md",
-    "6、重定向.md",
-    "5、和命令打交道.md",
     "2、导航.md",
     "3、探索Linux系统.md",
-    "4、操作文件和目录.md",
     "36、其他命令.md",
     "其中第一个字符是文件类型。.md",
     "34、字符串与数字.md",
