@@ -40,7 +40,7 @@
 ### 什么是位置编码？在 Transformer 中，为什么它是必需的？请列举至少两种实现方式。
 
 <strong>什么是位置编码？</strong>
-位置编码（Positional Encoding, PE）是一个与词嵌入维度相同的向量，其目的是向模型注入关于**词元在输入序列中绝对或相对位置**的信息。它会与词元的词嵌入（Token Embedding）相加，然后一同输入到Transformer的底层。
+位置编码（Positional Encoding, PE）是一个与词嵌入维度相同的向量，其目的是向模型注入关于**词元在输入序列中绝对或相对位置**的信息。它会与**词元的词嵌入（Token Embedding）相加**，然后一同输入到Transformer的底层。
 
 <strong>为什么它是必需的？</strong>
 Transformer的核心机制——自注意力，在计算时处理的是一个集合（Set）而非序列（Sequence）。它本身不包含任何关于词元顺序的信息，是 <strong>置换不变（Permutation-invariant）</strong> 的。这意味着，如果打乱输入序列中词元的顺序，自注意力层的输出也会相应地被打乱，但每个词元自身的输出向量（在不考虑softmax归一化的情况下）是相同的。这显然不符合自然语言的特性，因为语序至关重要（例如“我打你”和“你打我”含义完全相反）。因此，必须通过一种外部机制，将位置信息显式地提供给模型，这就是位置编码的作用。
@@ -66,7 +66,7 @@ Transformer的核心机制——自注意力，在计算时处理的是一个集
 #### <strong>2. Decoder-Only 架构 (例如 GPT系列, Llama, Qwen)</strong>
 
 * <strong>结构：</strong> 由多个Transformer Decoder层堆叠而成，但移除了其中的Encoder-Decoder交叉注意力部分。
-* <strong>核心机制：</strong> <strong>单向（因果）自注意力机制 (Causal Self-Attention)</strong>。在预测第 `t` 个词元时，模型只能关注到位置 `1` 到 `t-1` 的词元，不能看到未来的信息。这种自回归的特性天然适合生成任务。
+* <strong>核心机制：</strong> <strong>单向（因果）自注意力机制 (Causal Self-Attention)</strong>。在**预测第 `t` 个词元时，模型只能关注到位置 `1` 到 `t-1` 的词元**，不能看到未来的信息。这种自回归的特性天然适合生成任务。
 * <strong>最擅长的任务类型：自然语言生成 (NLG)</strong>。
   * <strong>具体任务：</strong>
     * <strong>开放式文本生成：</strong> 写文章、故事、诗歌。
