@@ -4,361 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "91b3ebb878729386",
+        "id": "078228436abaae73",
         "type": "tabs",
         "children": [
           {
-            "id": "106c109c8be283d1",
+            "id": "9c36884162f442d9",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "release-notes",
               "state": {
-                "file": "9、权限.md",
-                "mode": "source",
-                "source": false
+                "currentVersion": "1.12.7"
               },
-              "icon": "lucide-file",
-              "title": "9、权限"
-            }
-          },
-          {
-            "id": "99cbeb7cf67da51d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "11、环境.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "11、环境"
-            }
-          },
-          {
-            "id": "05f19fe2ac2cc1c3",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "35、数组.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "35、数组"
-            }
-          },
-          {
-            "id": "c9ddc6476957ac49",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "3、探索Linux系统.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "3、探索Linux系统"
-            }
-          },
-          {
-            "id": "550457d2f73e5be6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "4、操作文件和目录.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "4、操作文件和目录"
-            }
-          },
-          {
-            "id": "cb71d36ded33b274",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "18、归档和备份.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "18、归档和备份"
-            }
-          },
-          {
-            "id": "1b2494e7142b4364",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "11、环境.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "11、环境"
-            }
-          },
-          {
-            "id": "1a0ddfe49f3253d8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "19、正则表达式.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "19、正则表达式"
-            }
-          },
-          {
-            "id": "9d9b8dd10c455566",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "20、文本处理.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "20、文本处理"
-            }
-          },
-          {
-            "id": "a8b60fcfb54eb719",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "21、格式化输出.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "21、格式化输出"
-            }
-          },
-          {
-            "id": "0be5ced7b5aeec7d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "22、打印.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "22、打印"
-            }
-          },
-          {
-            "id": "b99b606958bb20e4",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "23、编译程序.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "23、编译程序"
-            }
-          },
-          {
-            "id": "42d7f59f30f3f106",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "24、编写第一个脚本.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "24、编写第一个脚本"
-            }
-          },
-          {
-            "id": "9e9d5c0e92a3ae1b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "25、启动项目.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "25、启动项目"
-            }
-          },
-          {
-            "id": "d18c0f3fc08b9a3d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "7、“Shell眼”看世界.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "7、“Shell眼”看世界"
-            }
-          },
-          {
-            "id": "2767c1c97f54c240",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "27、流程控制：if分支.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "27、流程控制：if分支"
-            }
-          },
-          {
-            "id": "ba1800ecaa5adc56",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "28、读取键盘输入.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "28、读取键盘输入"
-            }
-          },
-          {
-            "id": "a821fbff2ca70811",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "27、流程控制：if分支.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "27、流程控制：if分支"
-            }
-          },
-          {
-            "id": "aa9d45e62f037b89",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "30、故障诊断.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "30、故障诊断"
-            }
-          },
-          {
-            "id": "66a7594c19cca15d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "31、流程控制：case分支.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "31、流程控制：case分支"
-            }
-          },
-          {
-            "id": "cf859aba41ed67ba",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "32、位置参数.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "32、位置参数"
-            }
-          },
-          {
-            "id": "55d682b881a18496",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "12、vi入门.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "12、vi入门"
-            }
-          },
-          {
-            "id": "9d95fbc74b2eef10",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "34、字符串与数字.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "34、字符串与数字"
-            }
-          },
-          {
-            "id": "153992383dee7de1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "35、数组.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "35、数组"
-            }
-          },
-          {
-            "id": "1ce9205277b98610",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "7、“Shell眼”看世界.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "7、“Shell眼”看世界"
+              "icon": "lucide-book-up",
+              "title": "版本说明 1.12.7"
             }
           }
-        ],
-        "currentTab": 24
+        ]
       }
     ],
     "direction": "vertical"
@@ -501,12 +162,13 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "1ce9205277b98610",
+  "active": "9c36884162f442d9",
   "lastOpenFiles": [
+    "35、数组.md",
+    "7、“Shell眼”看世界.md",
     "12、vi入门.md",
     "4、操作文件和目录.md",
     "5、和命令打交道.md",
-    "7、“Shell眼”看世界.md",
     "6、重定向.md",
     "17、查找文件.md",
     "18、归档和备份.md",
@@ -528,7 +190,6 @@
     "30、故障诊断.md",
     "28、读取键盘输入.md",
     "29、流程控制：while、until循环.md",
-    "25、启动项目.md",
     "assert/Pasted image 20240919210846.png",
     "assert/Pasted image 20241010144625.png",
     "assert/Pasted image 20241013104244.png",
