@@ -1,184 +1,148 @@
 # Go 语言算法刷题必备语法
 
-## 一、变量与类型
+## 速查表 — 20 个最高频语法
 
-### 基本类型
-```go
-bool
-int, int8, int16, int32, int64
-uint, uint8, uint16, uint32, uint64
-float32, float64
-byte      // uint8 的别名
-rune      // int32 的别名，表示 Unicode 码点
-string
-```
 
-### 零值初始化
-```go
-var a int       // 0
-var b bool      // false
-var c string    // "" （空字符串）
-var d []int     // nil
-var e *int      // nil
-var m map[int]int // nil（不能直接写入！）
-```
-
-### 短变量声明
-```go
-a := 10
-b, ok := m[1]
-```
-
-### 常量
-```go
-const MOD = 1_000_000_007
-const (
-    A = iota   // 0
-    B          // 1
-    C          // 2
-)
-```
+| #  | 语法             | 示例                                                                           |
+| -- | ---------------- | ------------------------------------------------------------------------------ |
+| 1  | 短变量声明       | `a := 10` / `b, ok := m[1]`                                                    |
+| 2  | make 切片        | `s := make([]int, n)`                                                          |
+| 3  | make 二维切片    | `dp := make([][]int, n); for i := range dp { dp[i] = make([]int, m) }`         |
+| 4  | append           | `s = append(s, x)` / `s = append(s, other...)`                                 |
+| 5  | 切片截取         | `s[1:4]` — 左闭右开，共享底层数组                                             |
+| 6  | map 操作         | `m := make(map[int]int)` / `v, ok := m[k]` / `delete(m, k)`                    |
+| 7  | range 遍历       | `for i, v := range arr {}` / `for k, v := range m {}`                          |
+| 8  | 排序             | `slices.Sort(s)` / `slices.SortFunc(s, func(a,b int) int { return a-b })`      |
+| 9  | 二分查找         | `idx, found := slices.BinarySearch(s, x)`                                      |
+| 10 | 栈操作           | `push: s = append(s, v)` / `pop: s = s[:len(s)-1]`                             |
+| 11 | 队列操作         | `push: q = append(q, v)` / `pop: q = q[1:]`                                    |
+| 12 | 堆操作           | `heap.Push(h, v)` / `v := heap.Pop(h).(int)`                                   |
+| 13 | 内置 min/max     | `min(a, b)` / `max(a, b)` — Go 1.21+                                          |
+| 14 | 字符串与数字互转 | `strconv.Atoi("123")` / `strconv.Itoa(123)`                                    |
+| 15 | strings.Builder  | `var sb strings.Builder; sb.WriteString("hi"); sb.String()`                    |
+| 16 | 反转链表         | `head.Next, prev, head = prev, head, head.Next`（三句循环）                    |
+| 17 | 交换             | `a, b = b, a`                                                                  |
+| 18 | 取模             | `ans = (ans + x) % MOD` / `((a-b)%MOD + MOD) % MOD`                            |
+| 19 | 输入（ACM 模式） | `sc := bufio.NewScanner(os.Stdin); sc.Scan(); n, _ := strconv.Atoi(sc.Text())` |
+| 20 | 递归闭包         | `var dfs func(i int) int; dfs = func(i int) int { ... }; dfs(0)`               |
 
 ---
 
-## 二、控制流
+## 一、基础语法
 
-### 只有 for 循环（没有 while/do-while）
+### 1.1 变量与零值
+
 ```go
-// 标准 for
-for i := 0; i < n; i++ { }
+// 短声明（最常用）
+a := 10
+b, ok := m[1]
 
-// 相当于 while
-for condition { }
+// var 声明（需要指定类型或零值时）
+var n int       // 0
+var s []int     // nil
+var m map[int]int // nil — 不能直接写入！必须 make
 
-// 无限循环
-for { break }
-
-// range 遍历
-for i, v := range arr { }
-for k, v := range m { }
-for i, c := range "hello" { }  // i 是字节下标，c 是 rune
+// 常量
+const MOD = 1_000_000_007
+const (A = iota; B; C)  // 0, 1, 2
 ```
 
-### if 支持初始化语句
+### 1.2 控制流
+
 ```go
+// for — Go 唯一的循环关键字
+for i := 0; i < n; i++ { }   // 标准 for
+for condition { }            // 相当于 while
+for { }                      // 无限循环
+
+// range 遍历（高频！）
+for i, v := range arr { }    // i=索引, v=值（值拷贝！）
+for k, v := range m { }      // 遍历 map（无序！）
+for i, c := range "hello" { } // i=字节偏移, c=rune
+
+// if 支持初始化语句
 if v := f(); v > 0 { }
-```
 
-### switch 默认带 break
-```go
+// switch 默认带 break，不会穿透
 switch x {
 case 1:
-    // 不会 fallthrough
 case 2, 3:
-    // 匹配多个值
 default:
 }
 ```
 
----
+### 1.3 类型转换
 
-## 三、输入输出（重点）
-
-### 方式一：fmt.Scan (慢，数据量大时超时)
 ```go
-var n int
-fmt.Scan(&n)
+int(3.14)        // float64 -> int
+float64(42)      // int -> float64
+int64(n)         // int -> int64
+[]byte("abc")    // string -> []byte
+string([]byte{97, 98, 99})  // []byte -> string
+
+// 类型断言
+var val any = 42
+if v, ok := val.(int); ok { }
+
+// nil 判断
+if s == nil { }  // 切片
+if m == nil { }  // map
+if p == nil { }  // 指针/接口
 ```
-
-### 方式二：bufio.Scanner（推荐，高效）
-```go
-sc := bufio.NewScanner(os.Stdin)
-// 按单词读
-sc.Scan()
-n, _ := strconv.Atoi(sc.Text())
-
-// 按行读
-for sc.Scan() {
-    line := sc.Text()
-}
-
-// 读多行不定长数据
-sc := bufio.NewScanner(os.Stdin)
-sc.Split(bufio.ScanWords)
-for i := 0; i < n; i++ {
-    sc.Scan()
-    v, _ := strconv.Atoi(sc.Text())
-}
-```
-
-### 方式三：bufio + strings
-```go
-input, _ := os.ReadFile(os.Stdin)
-nums := strings.Fields(string(input)) // 按空白字符切分
-```
-
-### 输出
-```go
-fmt.Println(ans)
-fmt.Printf("%d %d\n", a, b)
-
-// 大量输出用 bufio
-wr := bufio.NewWriter(os.Stdout)
-defer wr.Flush()
-fmt.Fprintln(wr, ans)
-```
-
-> **注意**：算法竞赛中推荐 `bufio.Scanner` 读 + `bufio.Writer` 写
 
 ---
 
-## 四、数组与切片（核心数据结构）
+## 二、切片与数组（核心 🔥）
 
-### 数组（固定长度，值类型）
+### 2.1 创建
+
 ```go
-var arr [3]int          // [0 0 0]
+// 数组（固定长度，值类型 — 很少用）
 arr := [3]int{1, 2, 3}
-arr := [...]int{1, 2, 3} // 自动推断长度
-```
+arr := [...]int{1, 2, 3}
 
-### 切片（动态数组，引用类型）
-```go
-var s []int             // nil 切片
+// 切片（动态，引用类型 — 天天用）
 s := []int{1, 2, 3}
-s := make([]int, n)     // 长度 n，元素零值
-s := make([]int, n, m)  // 长度 n，容量 m
-```
+s := make([]int, n)       // 长度 n，满零值
+s := make([]int, n, cap)  // 长度 n，容量 cap
 
-### 常用操作
-```go
-s = append(s, x)           // 末尾添加
-s = append(s, x, y, z)     // 添加多个
-s = append(s, other...)    // 合并切片
-s = s[:len(s)-1]           // 弹栈（删除末尾一个元素）
-copy(dst, src)             // 复制（返回复制的元素个数，取 min(len(src), len(dst))）
-
-// 二维切片（动态 DP 数组等）
+// 二维切片
 dp := make([][]int, n)
-for i := range dp {
-    dp[i] = make([]int, m)
-}
+for i := range dp { dp[i] = make([]int, m) }
 ```
 
-### 切片截取
+### 2.2 常用操作
+
 ```go
+// 增删
+s = append(s, x)          // 追加单个
+s = append(s, x, y, z)    // 追加多个
+s = append(s, other...)   // 合并切片
+s = s[:len(s)-1]          // 删末尾（弹栈）
+
+// 截取（左闭右开，共享底层数组！）
 s := []int{0, 1, 2, 3, 4, 5}
-s[1:4]    // [1 2 3]   左闭右开
+s[1:4]    // [1 2 3]
 s[:3]     // [0 1 2]
 s[3:]     // [3 4 5]
+
+// 复制
+copy(dst, src)            // 返回 min(len(dst), len(src))
+copy := append([]int(nil), s...)  // 深拷贝
 ```
 
-> **切片陷阱**：截取共享底层数组！修改会影响原切片。如需独立副本，用 `copy` 或 `append([]int(nil), s...)`
+> ⚠️ **切片陷阱**：截取共享底层数组，修改会影响原切片。需独立副本时用 `copy` 或深拷贝。
 
 ---
 
-## 五、映射（Map）
+## 三、Map（🔥）
 
 ```go
 m := make(map[int]int)
 m := map[int]int{1: 10, 2: 20}
-delete(m, 1)               // 删除键
-v, ok := m[1]              // ok 判断键是否存在
+
+delete(m, 1)          // 删除键
+v, ok := m[1]         // 判断键是否存在（ok 模式很重要！）
 
 // 遍历（无序！）
 for k, v := range m { }
@@ -187,8 +151,9 @@ for _, v := range m { }
 ```
 
 ### 用 map 实现 Set
+
 ```go
-set := make(map[int]struct{})
+set := make(map[int]struct{})   // struct{} 不占内存
 set[1] = struct{}{}
 if _, ok := set[1]; ok { }
 delete(set, 1)
@@ -196,207 +161,155 @@ delete(set, 1)
 
 ---
 
-## 六、通道（Channel）
+## 四、字符串（🔥）
 
-Channel 是 Go 的内置并发原语，少数算法题（如并发编排、交替打印）会用到。
+### 4.1 基本操作
 
-```go
-ch := make(chan int)          // 无缓冲通道（同步）
-ch := make(chan int, 10)      // 有缓冲通道（容量 10）
-
-ch <- v                       // 发送
-v := <-ch                     // 接收
-close(ch)                     // 关闭
-
-// 遍历通道（直到关闭）
-for v := range ch { }
-
-// 非阻塞收发（select + default）
-select {
-case v := <-ch:
-    // 收到数据
-default:
-    // 不会阻塞
-}
-
-// 只读/只写通道作为参数
-func reader(ch <-chan int) {}   // 只读
-func writer(ch chan<- int) {}   // 只写
-
-// 用 channel 实现信号量（控制并发数）
-sem := make(chan struct{}, 5)
-```
-
-> 刷题中 channel 主要用于 **goroutine 同步/交替打印** 类问题，常规算法题很少涉及。
-
----
-
-## 七、结构体（Struct）
-
-```go
-type Point struct {
-    X, Y int
-}
-
-p := Point{1, 2}
-p := Point{X: 1}          // Y 默认为 0
-pp := &Point{1, 2}        // 指针
-
-// 结构体比较：所有字段可比较时，结构体也可比较
-p1 == p2                  // 可做 map 键
-```
-
----
-
-## 八、字符串操作
-
-### 字符串是不可变的字节序列
 ```go
 s := "hello"
-len(s)            // 字节长度（不是字符数）
-s[0]              // 取字节（不可修改）
+len(s)    // 字节长度（非字符数！）
+s[0]      // 取字节（不可修改！）
+
+// Unicode 处理：用 range，不要用索引
+for i, r := range s { }  // r 是 rune
+rs := []rune(s)          // string → rune 切片
+s = string(rs)           // rune 切片 → string
 ```
 
-### strings 包
+### 4.2 strings 包速查
+
+
+| 函数                              | 作用                      |
+| --------------------------------- | ------------------------- |
+| `Contains(s, sub)`                | 是否包含                  |
+| `HasPrefix(s, pre)` / `HasSuffix` | 前/后缀                   |
+| `Index(s, sub)`                   | 首次出现位置，-1 表示没有 |
+| `Split(s, sep)`                   | 切分，返回`[]string`      |
+| `Join(parts, sep)`                | 拼接                      |
+| `Trim(s, cutset)`                 | 去除两端字符              |
+| `Replace(s, old, new, n)`         | 替换（n<0 表示全部）      |
+| `Count(s, sub)`                   | 计数                      |
+| `ToLower(s)` / `ToUpper(s)`       | 大小写                    |
+| `Repeat(s, n)`                    | 重复 n 次                 |
+
+### 4.3 字符串与数字互转
+
 ```go
-strings.HasPrefix(s, "he")   // true
-strings.HasSuffix(s, "lo")   // true
-strings.Contains(s, "ell")   // true
-strings.Index(s, "ll")       // 2
-strings.Split("a,b,c", ",")   // ["a","b","c"]
-strings.Join([]string{"a","b"}, ",")  // "a,b"
-strings.Trim(s, " ")          // 去除两端空白
-strings.ToLower(s)
-strings.ToUpper(s)
-strings.Repeat("a", 5)        // "aaaaa"
-strings.Replace(s, "l", "x", -1)  // 全部替换
-strings.Count(s, "l")         // 2
+import "strconv"
+
+n, _ := strconv.Atoi("123")       // string → int
+s := strconv.Itoa(123)             // int → string
+n, _ := strconv.ParseInt("FF", 16, 64)  // 按进制解析
+s := strconv.FormatInt(255, 16)    // 格式化为进制字符串
 ```
 
-### 字符串与数字互转
-```go
-n, _ := strconv.Atoi("123")
-s := strconv.Itoa(123)
-n, _ := strconv.ParseInt("FF", 16, 64)
-s := strconv.FormatInt(255, 16)   // "ff"
-b, _ := strconv.ParseBool("true")
-```
+### 4.4 高效拼接
 
-### 字符处理
-```go
-byte(s[i])    // 取第 i 个字节
-rune(s[i])    // 错误！应用 range 遍历
-for i, r := range s { }  // i 是字节偏移，r 是 rune
-
-// 字符串转 rune 切片（处理 Unicode）
-rs := []rune(s)
-s = string(rs)
-
-unicode.IsDigit(r)
-unicode.IsLetter(r)
-unicode.IsLower(r), unicode.IsUpper(r)
-```
-
-### 快速构建字符串
 ```go
 var sb strings.Builder
 sb.WriteByte('a')
 sb.WriteString("hello")
 sb.WriteRune('好')
-s := sb.String()
+result := sb.String()
 ```
 
 ---
 
-## 九、排序
+## 五、排序与二分查找（🔥）
+
+Go 1.21+ **统一用 `slices` 包**，比老 `sort` 包更简洁安全。
+
+### 5.1 基础排序
 
 ```go
-import "sort"
+import "slices"
 
-sort.Ints(arr)        // 原地排序 []int
-sort.Strings(s)       // 原地排序 []string
-sort.Float64s(f)      // 原地排序 []float64
+nums := []int{3, 1, 4, 1, 5}
+slices.Sort(nums)  // [1 1 3 4 5]
 
-// 自定义排序
-sort.Slice(arr, func(i, j int) bool {
-    return arr[i] < arr[j]  // 升序
-})
+strs := []string{"banana", "apple"}
+slices.Sort(strs)  // ["apple" "banana"]
+```
+
+### 5.2 自定义排序：SortFunc
+
+```go
+// 比较函数返回：a-b<0 表示 a 排前面；a-b>0 表示 a 排后面；==0 表示相等
+// 升序
+slices.SortFunc(nums, func(a, b int) int { return a - b })
 
 // 降序
-sort.Slice(arr, func(i, j int) bool {
-    return arr[i] > arr[j]
+slices.SortFunc(nums, func(a, b int) int { return b - a })
+
+// 按绝对值升序
+slices.SortFunc(nums, func(a, b int) int { return abs(a) - abs(b) })
+
+// 结构体多字段排序
+slices.SortFunc(people, func(a, b Person) int {
+    if a.Age != b.Age { return a.Age - b.Age }
+    return strings.Compare(a.Name, b.Name)
 })
 
-// 自定义类型的排序（实现 sort.Interface）
-type Pair struct{ a, b int }
-type Pairs []Pair
-func (p Pairs) Len() int           { return len(p) }
-func (p Pairs) Less(i, j int) bool { return p[i].a < p[j].a }
-func (p Pairs) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
-sort.Sort(Pairs(arr))
+// 稳定排序
+slices.SortStableFunc(nums, func(a, b int) int { return a - b })
+```
 
-// 二分查找（需要已排序）
-sort.SearchInts(arr, x)      // 返回 x 在 arr 中的插入位置
-sort.Search(n, func(i int) bool {
-    return arr[i] >= x
+### 5.3 二分查找
+
+```go
+// 必须已排序（升序）！
+nums := []int{1, 1, 3, 4, 5}
+
+idx, found := slices.BinarySearch(nums, 3)  // (2, true)
+idx, found := slices.BinarySearch(nums, 2)  // (2, false) — 找不到时返回插入位置
+
+// 自定义排序的二分
+idx, found := slices.BinarySearchFunc(nums, target, func(n, target int) int {
+    return n - target
 })
-// sort.Search 返回使 f(i) 为 true 的最小 i
+```
+
+### 5.4 检查是否已排序
+
+```go
+slices.IsSorted(nums)
+slices.IsSortedFunc(nums, cmp)
+```
+
+### 5.5 旧版 sort 包（Go < 1.21 兼容）
+
+```go
+sort.Ints(arr)            // 升序
+sort.Slice(arr, func(i, j int) bool { return arr[i] < arr[j] })
+sort.SearchInts(arr, x)   // 二分
 ```
 
 ---
 
-## 十、数学运算
+## 六、数学与位运算
 
-### Go 1.21+ 内置
+### 6.1 内置函数（Go 1.21+）
+
 ```go
-max(a, b)
-min(a, b)
-clear(m)    // 清空 map
-clear(s)    // 将切片元素置零
+max(a, b)    // 两个值取最大
+min(a, b)    // 两个值取最小
+clear(m)     // 清空 map
+clear(s)     // 切片元素置零
 ```
 
-### math 包
+### 6.2 必背函数
+
 ```go
-math.MaxInt32, math.MinInt32
-math.MaxInt64, math.MinInt64
-math.Abs(x)            // float64
-math.Pow(x, y)         // float64
-math.Sqrt(x)           // float64
-math.Max(x, y)         // float64
-math.Min(x, y)         // float64
-```
+func abs(x int) int { if x < 0 { return -x }; return x }
 
-### 手动实现（经常需要用）
-```go
-func abs(x int) int {
-    if x < 0 { return -x }
-    return x
-}
-
-func min(a, b int) int {
-    if a < b { return a }
-    return b
-}
-
-func max(a, b int) int {
-    if a > b { return a }
-    return b
-}
-
-// 最大公约数
 func gcd(a, b int) int {
-    for b != 0 {
-        a, b = b, a%b
-    }
+    for b != 0 { a, b = b, a%b }
     return a
 }
 
-// 最小公倍数
-func lcm(a, b int) int {
-    return a / gcd(a, b) * b
-}
+func lcm(a, b int) int { return a / gcd(a, b) * b }
 
-// 快速幂（模版）
+// 快速幂
 func powMod(a, b, mod int) int {
     res := 1
     for b > 0 {
@@ -408,173 +321,86 @@ func powMod(a, b, mod int) int {
 }
 ```
 
----
-
-## 十一、常用数据结构实现
-
-### 栈（Stack）
-```go
-// 用切片实现
-stack := make([]int, 0)
-push: stack = append(stack, v)
-pop:  v = stack[len(stack)-1]; stack = stack[:len(stack)-1]
-top:  v = stack[len(stack)-1]
-```
-
-### 队列（Queue）
-```go
-// 用切片实现（性能较差，频繁出队时用链表或环形队列）
-q := make([]int, 0)
-enqueue: q = append(q, v)
-dequeue: v = q[0]; q = q[1:]   // O(n)! 大数据量不推荐
-
-// 推荐：用两个索引模拟队列
-q := make([]int, n)
-front, rear := 0, 0
-enqueue: q[rear] = v; rear++
-dequeue: v = q[front]; front++
-// 注意：可能存在内存泄漏，但刷题够用
-```
-
-### 优先队列（container/heap）
-```go
-import "container/heap"
-
-// 最小堆模板（必须实现以下接口）
-type MinHeap []int
-func (h MinHeap) Len() int           { return len(h) }
-func (h MinHeap) Less(i, j int) bool { return h[i] < h[j] }  // 最小堆
-func (h MinHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
-func (h *MinHeap) Push(x any)        { *h = append(*h, x.(int)) }
-func (h *MinHeap) Pop() any {
-    old := *h; n := len(old); x := old[n-1]; *h = old[:n-1]; return x
-}
-
-// 使用
-h := &MinHeap{}
-heap.Init(h)
-heap.Push(h, 5)
-v := heap.Pop(h).(int)   // 返回最小值
-top := (*h)[0]           // 查看堆顶（不弹出）
-
-// 最大堆：将 Less 改为 > 即可
-func (h MaxHeap) Less(i, j int) bool { return h[i] > h[j] }
-```
-
-### 环形队列
-```go
-type MyCircularQueue struct {
-    data []int
-    front, rear, size, cap int
-}
-func New(k int) MyCircularQueue {
-    return MyCircularQueue{data: make([]int, k+1), rear: 0, cap: k+1}
-}
-func (q *MyCircularQueue) EnQueue(v int) bool {
-    if q.IsFull() { return false }
-    q.data[q.rear] = v
-    q.rear = (q.rear + 1) % q.cap
-    q.size++
-    return true
-}
-func (q *MyCircularQueue) DeQueue() bool {
-    if q.IsEmpty() { return false }
-    q.front = (q.front + 1) % q.cap
-    q.size--
-    return true
-}
-func (q *MyCircularQueue) IsEmpty() bool  { return q.size == 0 }
-func (q *MyCircularQueue) IsFull() bool   { return q.size == q.cap-1 }
-func (q *MyCircularQueue) Front() int     { return q.data[q.front] }
-func (q *MyCircularQueue) Rear() int      { return q.data[(q.rear-1+q.cap)%q.cap] }
-```
-
----
-
-## 十二、链表操作
+### 6.3 位运算速查
 
 ```go
-type ListNode struct {
-    Val  int
-    Next *ListNode
-}
+x & (-x)       // 提取最低位的 1
+x & (x-1)      // 消除最低位的 1
+x >> k & 1     // 取第 k 位
+x | (1 << k)   // 第 k 位置 1
+x & ^(1 << k)  // 第 k 位置 0
+x & 1          // 判断奇偶
+x ^ x == 0     // 自我异或为 0
 
-// 遍历
-for p := head; p != nil; p = p.Next { }
-
-// 删除节点
-prev.Next = prev.Next.Next
-
-// 反转链表
-func reverse(head *ListNode) *ListNode {
-    var prev *ListNode
-    for head != nil {
-        next := head.Next
-        head.Next = prev
-        prev = head
-        head = next
+// 子集枚举
+for mask := 0; mask < (1 << n); mask++ {
+    for i := 0; i < n; i++ {
+        if mask>>i&1 == 1 { /* 选中第 i 个 */ }
     }
-    return prev
 }
 ```
 
 ---
 
-## 十三、树操作
+## 七、算法模板（🔥）
+
+### 7.1 二分搜索
 
 ```go
-type TreeNode struct {
-    Val   int
-    Left  *TreeNode
-    Right *TreeNode
+// 标准二分（在有序数组中找 target）
+l, r := 0, n-1
+for l <= r {
+    mid := l + (r-l)/2   // 防溢出写法
+    if nums[mid] == target { return mid }
+    if nums[mid] < target { l = mid + 1 } else { r = mid - 1 }
 }
 
-// 前序遍历
-func preorder(root *TreeNode) []int {
-    var res []int
-    var dfs func(*TreeNode)
-    dfs = func(node *TreeNode) {
-        if node == nil { return }
-        res = append(res, node.Val)  // 前序
-        dfs(node.Left)
-        dfs(node.Right)
-    }
-    dfs(root)
-    return res
+// 左边界（第一个 >= target）
+l, r := 0, n
+for l < r {
+    mid := l + (r-l)/2
+    if nums[mid] >= target { r = mid } else { l = mid + 1 }
 }
 
-// BFS 层序遍历
-func levelOrder(root *TreeNode) [][]int {
-    var res [][]int
-    q := []*TreeNode{root}
-    for len(q) > 0 {
-        level := make([]int, len(q))
-        next := make([]*TreeNode, 0)
-        for _, node := range q {
-            level = append(level, node.Val)
-            if node.Left  != nil { next = append(next, node.Left) }
-            if node.Right != nil { next = append(next, node.Right) }
+// 右边界（最后一个 <= target）
+l, r := -1, n-1
+for l < r {
+    mid := (l+r+1)/2     // 上取整
+    if nums[mid] <= target { l = mid } else { r = mid - 1 }
+}
+```
+
+### 7.2 DFS / BFS
+
+```go
+var dirs = [][]int{{0,1}, {0,-1}, {1,0}, {-1,0}}
+
+// DFS
+var dfs func(r, c int)
+dfs = func(r, c int) {
+    if r < 0 || r >= m || c < 0 || c >= n || visited[r][c] { return }
+    visited[r][c] = true
+    for _, d := range dirs { dfs(r+d[0], c+d[1]) }
+}
+
+// BFS
+q := [][]int{{sr, sc}}
+visited[sr][sc] = true
+for len(q) > 0 {
+    cur := q[0]; q = q[1:]
+    for _, d := range dirs {
+        nr, nc := cur[0]+d[0], cur[1]+d[1]
+        if nr >= 0 && nr < m && nc >= 0 && nc < n && !visited[nr][nc] {
+            visited[nr][nc] = true
+            q = append(q, []int{nr, nc})
         }
-        res = append(res, level)
-        q = next
     }
-    return res
 }
 ```
 
----
-
-## 十四、闭包与函数式
+### 7.3 回溯（排列组合）
 
 ```go
-// 闭包（DP 记忆化、DFS 常用）
-var dfs func(i int) int
-dfs = func(i int) int {
-    if i <= 1 { return 1 }
-    return dfs(i-1) + dfs(i-2)
-}
-
-// 用 defer 处理回溯状态恢复
 func permute(nums []int) [][]int {
     var res [][]int
     used := make([]bool, len(nums))
@@ -590,7 +416,7 @@ func permute(nums []int) [][]int {
             if used[i] { continue }
             used[i] = true
             dfs(append(path, nums[i]))
-            used[i] = false
+            used[i] = false   // 回溯恢复
         }
     }
     dfs(nil)
@@ -598,7 +424,35 @@ func permute(nums []int) [][]int {
 }
 ```
 
-### 记忆化搜索
+### 7.4 DP 模板
+
+```go
+// 一维 DP
+dp := make([]int, n+1)
+dp[0] = 1
+for i := 1; i <= n; i++ {
+    dp[i] = dp[i-1] + ...   // 状态转移
+}
+
+// 二维 DP
+dp := make([][]int, m+1)
+for i := range dp { dp[i] = make([]int, n+1) }
+
+// 滚动数组（省空间）
+dp0, dp1 := 0, 0
+for i := 0; i < n; i++ { dp0, dp1 = dp1, max(dp0+v, dp1) }
+
+// 01 背包
+dp := make([]int, target+1)
+for _, w := range weights {
+    for j := target; j >= w; j-- {   // 逆序！防止重复使用
+        dp[j] = max(dp[j], dp[j-w]+v)
+    }
+}
+```
+
+### 7.5 记忆化搜索
+
 ```go
 memo := make([]int, n)
 for i := range memo { memo[i] = -1 }
@@ -614,373 +468,396 @@ dfs = func(i int) int {
 
 ---
 
-## 十五、常见算法模板
+## 八、数据结构实现
 
-### 二分搜索
+### 8.1 栈
+
 ```go
-// 标准二分
-l, r := 0, n-1
-for l <= r {
-    mid := l + (r-l)/2  // 防止溢出
-    if nums[mid] == target { return mid }
-    if nums[mid] < target { l = mid + 1 } else { r = mid - 1 }
+stack := make([]int, 0)
+// push
+stack = append(stack, v)
+// pop
+v := stack[len(stack)-1]; stack = stack[:len(stack)-1]
+// top
+top := stack[len(stack)-1]
+```
+
+### 8.2 队列
+
+```go
+// 简单队列（出队 O(n)，数据量小时用）
+q := make([]int, 0)
+q = append(q, v)   // 入队
+v := q[0]; q = q[1:]  // 出队
+
+// 高效队列（双指针，O(1) 出入）
+q := make([]int, n); front, rear := 0, 0
+q[rear] = v; rear++       // 入队
+v := q[front]; front++    // 出队
+```
+
+### 8.3 优先队列（heap）
+
+```go
+import "container/heap"
+
+// 最小堆模板
+type MinHeap []int
+func (h MinHeap) Len() int           { return len(h) }
+func (h MinHeap) Less(i, j int) bool { return h[i] < h[j] }  // 改 > 变最大堆
+func (h MinHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+func (h *MinHeap) Push(x any)        { *h = append(*h, x.(int)) }
+func (h *MinHeap) Pop() any {
+    old := *h; n := len(old); x := old[n-1]; *h = old[:n-1]; return x
 }
 
-// 左边界（第一个 >= target）
-l, r := 0, n
-for l < r {
-    mid := l + (r-l)/2
-    if nums[mid] >= target { r = mid } else { l = mid + 1 }
+// 使用
+h := &MinHeap{}
+heap.Init(h)
+heap.Push(h, 5)
+v := heap.Pop(h).(int)   // 类型断言！
+top := (*h)[0]           // 查看堆顶
+```
+
+### 8.4 链表
+
+```go
+type ListNode struct {
+    Val  int
+    Next *ListNode
 }
 
-// 右边界（最后一个 <= target）
-l, r := -1, n-1
-for l < r {
-    mid := (l+r+1)/2  // 上取整
-    if nums[mid] <= target { l = mid } else { r = mid-1 }
+// 遍历
+for p := head; p != nil; p = p.Next { }
+
+// 反转（经典）
+func reverse(head *ListNode) *ListNode {
+    var prev *ListNode
+    for head != nil {
+        next := head.Next
+        head.Next = prev
+        prev = head
+        head = next
+    }
+    return prev
 }
 ```
 
-### DFS / BFS
+### 8.5 树
+
 ```go
-// DFS 框架
-var visited [][]bool
-var dirs = [][]int{{0,1},{0,-1},{1,0},{-1,0}}
-var dfs func(r, c int)
-dfs = func(r, c int) {
-    if r < 0 || r >= m || c < 0 || c >= n || visited[r][c] { return }
-    visited[r][c] = true
-    for _, d := range dirs { dfs(r+d[0], c+d[1]) }
+type TreeNode struct {
+    Val   int
+    Left  *TreeNode
+    Right *TreeNode
 }
 
-// BFS 框架
-q := [][]int{{sr, sc}}
-visited[sr][sc] = true
-for len(q) > 0 {
-    cur := q[0]; q = q[1:]
-    for _, d := range dirs {
-        nr, nc := cur[0]+d[0], cur[1]+d[1]
-        if nr >= 0 && nr < m && nc >= 0 && nc < n && !visited[nr][nc] {
-            visited[nr][nc] = true
-            q = append(q, []int{nr, nc})
+// 前序 DFS
+func preorder(root *TreeNode) []int {
+    var res []int
+    var dfs func(*TreeNode)
+    dfs = func(node *TreeNode) {
+        if node == nil { return }
+        res = append(res, node.Val) // 前序
+        dfs(node.Left)
+        dfs(node.Right)
+    }
+    dfs(root)
+    return res
+}
+
+// BFS 层序
+func levelOrder(root *TreeNode) [][]int {
+    var res [][]int
+    q := []*TreeNode{root}
+    for len(q) > 0 {
+        level := make([]int, 0, len(q))
+        next := make([]*TreeNode, 0)
+        for _, node := range q {
+            level = append(level, node.Val)
+            if node.Left  != nil { next = append(next, node.Left) }
+            if node.Right != nil { next = append(next, node.Right) }
         }
+        res = append(res, level)
+        q = next
     }
-}
-```
-
-### DP 常见形式
-```go
-// 一维 DP
-dp := make([]int, n)
-for i := range dp {
-    // 状态转移
-}
-
-// 二维 DP
-dp := make([][]int, m)
-for i := range dp { dp[i] = make([]int, n) }
-
-// 滚动数组优化
-dp0, dp1 := 0, 0
-for i := 0; i < n; i++ {
-    dp0, dp1 = dp1, max(dp1, dp0+v)
-}
-
-// 背包 DP
-dp := make([]int, target+1)
-for _, w := range weights {
-    for j := target; j >= w; j-- {  // 01背包：逆序
-        dp[j] = max(dp[j], dp[j-w]+v)
-    }
+    return res
 }
 ```
 
 ---
 
-## 十六、位运算
+## 九、输入输出（ACM 模式）
+
+> LeetCode 核心代码模式不需要处理输入输出，直接实现函数即可。以下为 ACM 模式（牛客网等）。
+
+### 9.1 输入
 
 ```go
-x & (-x)       // 提取最低位的 1
-x & (x-1)      // 消除最低位的 1
-x >> k & 1     // 取第 k 位（从0开始）
-x | (1 << k)   // 将第 k 位置 1
-x & ^(1 << k)  // 将第 k 位置 0
-x ^ y          // 异或（相同为0，不同为1）
-x ^ x == 0     // 自我异或为0
-x ^ 0 == x     // 与0异或为自身
-x & 1          // 判断奇偶（1为奇，0为偶）
+import (
+    "bufio"
+    "os"
+    "strconv"
+)
 
-// 子集枚举（位掩码）
-for mask := 0; mask < (1 << n); mask++ {
-    for i := 0; i < n; i++ {
-        if mask>>i&1 == 1 {
-            // 选中第 i 个元素
-        }
-    }
-}
+// 推荐：bufio.Scanner
+sc := bufio.NewScanner(os.Stdin)
+
+// 按行读
+for sc.Scan() { line := sc.Text() }
+
+// 按单词读
+sc.Split(bufio.ScanWords)
+sc.Scan()
+n, _ := strconv.Atoi(sc.Text())
+
+// 一次性全读（数据量不大时最方便）
+input, _ := os.ReadFile(os.Stdin)
+nums := strings.Fields(string(input))  // 按空白切分
+```
+
+### 9.2 输出
+
+```go
+fmt.Println(ans)
+fmt.Printf("%d %d\n", a, b)
+
+// 大量输出时用 bufio（否则可能超时）
+wr := bufio.NewWriter(os.Stdout)
+defer wr.Flush()
+fmt.Fprintln(wr, ans)
 ```
 
 ---
 
-## 十七、类型转换与空值判断
+## 十、泛型（Go 1.18+）
 
-```go
-// 类型转换
-int(3.14)      // float64 -> int
-float64(42)    // int -> float64
-int64(n)       // int -> int64
-string('A')    // rune -> string
-[]byte("abc")  // string -> []byte
-string([]byte{97,98,99}) // []byte -> string
-
-// 类型断言
-var val any = 42
-if v, ok := val.(int); ok { }
-
-// nil 判断
-if s == nil { }           // 切片
-if m == nil { }           // map
-if p == nil { }           // 指针/接口
-```
-
----
-
-## 十八、常用技巧
-
-### 交换
-```go
-a, b = b, a
-```
-
-### 取模
-```go
-ans := (ans + x) % MOD
-// 处理负数
-ans = ((ans-x)%MOD + MOD) % MOD
-```
-
-### go:build 条件编译
-```go
-// LeetCode 在线评测不需要写 package，本地可以
-package main
-```
-
-### 计时
-```go
-defer func(t time.Time) {
-    fmt.Println(time.Since(t))
-}(time.Now())
-```
-
-### 比较两个切片是否相等
-```go
-slices.Equal(a, b)  // Go 1.21+
-
-// 或手动
-func equal(a, b []int) bool {
-    if len(a) != len(b) { return false }
-    for i := range a {
-        if a[i] != b[i] { return false }
-    }
-    return true
-}
-```
-
-### 二维数组初始化
-```go
-grid := make([][]int, m)
-for i := range grid {
-    grid[i] = make([]int, n)
-}
-// 或直接字面量
-grid := [][]int{{0,1},{1,0}}
-```
-
----
-
----
-
-## 二十、泛型（Go 1.18+）
-
-对于刷题，泛型最实用的场景是写一次通用的工具函数，避免为每种类型重复实现。
+刷题中泛型最有用的场景：写一次通用工具，避免为每种类型重复实现。
 
 ```go
 // 泛型约束
 type Number interface {
-    ~int | ~int8 | ~int16 | ~int32 | ~int64 |
-    ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 |
-    ~float32 | ~float64
+    ~int | ~int32 | ~int64 | ~float32 | ~float64
 }
 
-func min[T Number](a, b T) T {
-    if a < b { return a }; return b
-}
-func max[T Number](a, b T) T {
-    if a > b { return a }; return b
-}
-func abs[T Number](a T) T {
-    if a < 0 { return -a }; return a
-}
+func min[T Number](a, b T) T { if a < b { return a }; return b }
 
 // 泛型栈
 type Stack[T any] struct { data []T }
 func (s *Stack[T]) Push(v T)      { s.data = append(s.data, v) }
 func (s *Stack[T]) Pop() T        { v := s.data[len(s.data)-1]; s.data = s.data[:len(s.data)-1]; return v }
-func (s *Stack[T]) Top() T        { return s.data[len(s.data)-1] }
-func (s *Stack[T]) Len() int      { return len(s.data) }
 func (s *Stack[T]) IsEmpty() bool { return len(s.data) == 0 }
-
-// 泛型队列
-type Queue[T any] struct { data []T; l, r int }
-func (q *Queue[T]) Push(v T)      { q.data = append(q.data, v); q.r++ }
-func (q *Queue[T]) Pop() T        { v := q.data[q.l]; q.l++; return v }
-func (q *Queue[T]) Front() T      { return q.data[q.l] }
-func (q *Queue[T]) Len() int      { return q.r - q.l }
-func (q *Queue[T]) IsEmpty() bool { return q.l == q.r }
 
 // 泛型 Set
 type Set[T comparable] map[T]struct{}
-func NewSet[T comparable]() Set[T]      { return make(Set[T]) }
-func (s Set[T]) Add(v T)                { s[v] = struct{}{} }
-func (s Set[T]) Remove(v T)            { delete(s, v) }
-func (s Set[T]) Has(v T) bool          { _, ok := s[v]; return ok }
+func NewSet[T comparable]() Set[T] { return make(Set[T]) }
+func (s Set[T]) Add(v T)           { s[v] = struct{}{} }
+func (s Set[T]) Has(v T) bool      { _, ok := s[v]; return ok }
+func (s Set[T]) Remove(v T)        { delete(s, v) }
 ```
 
-### 使用 `~` 前缀
-```go
-type MyInt int
-// 约束写 int 不接受 MyInt，写 ~int 则接受
-```
+> `~int` 约束同时接受 `int` 和 `type MyInt int`；不用 `~` 则只接受 `int`。
 
 ---
 
-## 二十一、slices 包（Go 1.21+）
+## 十一、slices 包其他常用函数
 
 ```go
 import "slices"
 
-slices.Equal(a, b)           // 比较两个切片是否相等
-slices.Clone(s)              // 深拷贝切片（等价于 append([]T(nil), s...)）
-slices.Reverse(s)            // 原地反转
-slices.Sort(s)               // 升序排序
-slices.SortFunc(s, cmp)      // 自定义排序
-slices.BinarySearch(s, x)    // 二分查找，返回 (index, found)
-slices.Contains(s, x)        // 是否包含
-slices.Index(s, x)           // 第一个出现位置，没有返回 -1
-slices.Delete(s, i, j)       // 删除 s[i:j]，返回新切片
-slices.Insert(s, i, v...)    // 在 i 处插入
-slices.Replace(s, i, j, v...) // 替换 s[i:j]
-slices.Compact(s)            // 移除相邻重复元素
-slices.Max(s), slices.Min(s) // 返回最大值/最小值
+slices.Clone(s)                  // 深拷贝
+slices.Reverse(s)                // 原地反转
+slices.Equal(a, b)               // 比较相等
+slices.Contains(s, x)            // 是否包含
+slices.Index(s, x)               // 首次出现位置，-1 表示无
+slices.Delete(s, i, j)           // 删除 s[i:j]，返回新切片
+slices.Insert(s, i, v...)        // 在 i 插入
+slices.Compact(s)                // 移除相邻重复
+slices.Max(s) / slices.Min(s)    // 最大/最小值
+slices.Repeat(s, n)              // 重复切片 n 次
+slices.Concat(s1, s2, ...)       // 拼接多个切片
 ```
 
 ---
 
-## 二十二、container/list（双向链表）
+## 十二、maps 包常用函数（Go 1.21+）
 
 ```go
-import "container/list"
+import "maps"
 
-l := list.New()
-l.PushBack(1)          // 尾部添加
-l.PushFront(2)         // 头部添加
-back := l.Back()       // 获取尾部元素
-front := l.Front()     // 获取头部元素
-l.Remove(back)         // 删除指定元素
-l.MoveToFront(elem)    // 移到头部
-l.MoveToBack(elem)     // 移到尾部
+maps.Clone(m)           // 浅拷贝 map
+maps.Copy(dst, src)     // 将 src 全部键值拷入 dst（覆盖同名键）
+maps.Equal(m1, m2)      // 比较两个 map 是否相等
+maps.Keys(m)            // 返回所有键的切片，常用在"先取 key 再排序"
+maps.Values(m)          // 返回所有值的切片
+maps.DeleteFunc(m, func(k, v V) bool { return ... })  // 按条件删除
+```
 
-// 遍历
-for e := l.Front(); e != nil; e = e.Next() {
-    v := e.Value.(int)  // 类型断言
+### 典型用法：有序遍历 map
+
+```go
+// map 遍历无序，需要有序时先取 keys，排序后按 key 取值
+keys := maps.Keys(m)
+slices.Sort(keys)
+for _, k := range keys {
+    v := m[k]
 }
 ```
 
-常用于 **LRU Cache** 类问题。
+### 常用场景
+
+| 场景 | 用法 |
+|------|------|
+| 需要排序后遍历 map | `keys := maps.Keys(m); slices.Sort(keys)` |
+| 深拷贝一份 map | `m2 := maps.Clone(m)` |
+| 合并两个 map | `maps.Copy(dst, src)` |
+| 判断两个 map 是否相同 | `maps.Equal(m1, m2)` |
+
+> `maps.Keys` + `slices.Sort` 是刷题中 map 需要有序输出时的标准组合。
 
 ---
 
-## 二十三、make vs new
+## 十三、实用技巧
 
 ```go
-// make：只用于 slice/map/chan，返回初始化后的值（非指针）
-s := make([]int, 5)  // cap 自动 = len
+// 交换
+a, b = b, a
+
+// 取模（防负数）
+ans = (ans + x) % MOD
+ans = ((a - b) % MOD + MOD) % MOD
+
+// 二维数组字面量初始化
+grid := [][]int{{0, 1}, {1, 0}}
+
+// 比较两个切片
+slices.Equal(a, b)  // Go 1.21+
+
+// 计时
+defer func(t time.Time) { fmt.Println(time.Since(t)) }(time.Now())
+```
+
+### fmt 调试速查
+
+```go
+fmt.Printf("%v", s)   // 通用格式
+fmt.Printf("%+v", s)  // 结构体带字段名
+fmt.Printf("%#v", s)  // Go 语法格式
+fmt.Printf("%T", s)   // 打印类型
+fmt.Printf("%d", n)   // 十进制
+fmt.Printf("%b", n)   // 二进制
+fmt.Printf("%x", n)   // 十六进制
+```
+
+---
+
+## 十四、make vs new
+
+```go
+// make：仅用于 slice/map/chan，返回初始化的值
+s := make([]int, 5)
 m := make(map[int]int)
 
 // new：分配零值内存，返回指针
-p := new(int)        // *int，值为 0
-st := new(Struct)    // *Struct，所有字段为零值
+p := new(int)     // *int，值为 0
 
-// ⚠️ 以下会 panic：map 需要 make 初始化
+// ⚠️ map 必须 make，否则写会 panic
 var m map[int]int
 m[1] = 10  // panic: assignment to entry in nil map
 ```
 
 ---
 
-## 二十四、int 溢出
+## 十五、int 溢出
 
 ```go
-// Go 的 int 溢出是静默回绕，不会 panic！
+// Go 溢出静默回绕，不 panic！
 var a int32 = 2147483647
-a++  // a == -2147483648，无任何警告
+a++  // a == -2147483648
 
-// 字符串长度可能很大，len() 返回 int（64位机器上是 int64）
-// 刷题时注意取模防止溢出
+// 刷题防溢出：每一步都取模
 const MOD = 1_000_000_007
-ans := (ans + x) % MOD     // 加法取模
-ans := (ans * x) % MOD     // 乘法取模
-ans := ((a-b)%MOD + MOD) % MOD  // 减法取模防负数
+ans = (ans + x) % MOD
+ans = (ans * x) % MOD
 ```
 
 ---
 
-## 二十五、fmt 格式化动词（调试用）
+## 十六、常见陷阱（必读 ⚠️）
+
+
+| 严重度 | 陷阱                                | 说明                                                                 |
+| ------ | ----------------------------------- | -------------------------------------------------------------------- |
+| 🔴     | **nil map 写入会 panic**            | `var m map[int]int; m[1]=1` → panic。必须 `make`                    |
+| 🔴     | **强转 interface nil 判断为 false** | `var p *int=nil; var i any=p; i==nil` → **false**                   |
+| 🔴     | **map 并发写会 fatal error**        | 不能并发读写 map，需`sync.Mutex` 或 `sync.Map`                       |
+| 🟡     | **range 是值拷贝**                  | `for _, v := range arr { v=1 }` 不修改原数组，用 `arr[i]`            |
+| 🟡     | **切片截取共享底层数组**            | `b := a[1:3]; b[0]=1` 会影响 a。独立副本用 `copy`                    |
+| 🟡     | **append 可能重新分配内存**         | `s = append(s, x)` 后旧的指针可能失效，**必须用返回值**              |
+| 🟡     | **闭包捕获循环变量**                | `for i:=0; i<n; i++ { go func(){ fmt.Println(i) }() }` — 全部输出 n |
+| 🟡     | **字符串不可修改**                  | `s[0]='a'` 编译错误。需修改时转 `[]byte` 或 `[]rune`                 |
+| 🟡     | **int 位数取决于平台**              | 64 位机器是 64 位，不要假设是 32 位                                  |
+| 🟢     | **for range map 无序**              | 每次遍历顺序可能不同                                                 |
+| 🟢     | **defer 参数在定义时求值**          | 不是执行时求值                                                       |
+| 🟢     | **nil 切片 vs 空切片**              | `var s []int` vs `s:=[]int{}`，len 都是 0，JSON 不同                 |
+| 🟢     | **heap.Pop() 返回 any**             | 需要类型断言`v := heap.Pop(h).(int)`                                 |
+
+---
+
+## 附录 A：container/list（双向链表）
+
+LRU Cache 等场景使用。
 
 ```go
-fmt.Printf("%v", s)    // 通用格式
-fmt.Printf("%+v", s)   // 结构体带字段名输出
-fmt.Printf("%#v", s)   // Go 语法格式输出
-fmt.Printf("%T", s)    // 类型
-fmt.Printf("%d", n)    // 十进制整数
-fmt.Printf("%b", n)    // 二进制
-fmt.Printf("%x", n)    // 十六进制
-fmt.Printf("%s", str)  // 字符串
-fmt.Printf("%q", str)  // 带引号的字符串，安全转义
-fmt.Printf("%p", ptr)  // 指针地址
-fmt.Printf("%t", b)    // bool
+import "container/list"
+
+l := list.New()
+l.PushBack(1); l.PushFront(2)
+back := l.Back(); front := l.Front()
+l.Remove(elem); l.MoveToFront(elem)
+
+for e := l.Front(); e != nil; e = e.Next() {
+    v := e.Value.(int)
+}
 ```
 
 ---
 
-## 二十六、常见陷阱汇总
+## 附录 B：Channel（极少考，了解即可）
 
-| 陷阱 | 说明 |
-|------|------|
-| **range 是值拷贝** | `for _, v := range arr { v = 1 }` 不会修改原数组，需用索引 |
-| **闭包捕获循环变量** | `for i := 0; i < n; i++ { go func() { fmt.Println(i) }() }` 全部输出 n，需要 `i` 作为参数传入 |
-| **append 可能重新分配** | `s = append(s, x)` 之后，之前的切片引用可能失效，**一定要用返回值** |
-| **map 并发不安全** | 并发读写 map 会 fatal error，需加锁或用 sync.Map |
-| **nil 切片 vs 空切片** | `var s []int` 是 nil，`s := []int{}` 是空切片，`len` 都是 0，但 JSON 序列化结果不同 |
-| **defer 在函数返回时执行** | 参数在 defer 时求值（值拷贝），而非执行时 |
-| **for range map 无序** | 每次遍历顺序可能不同 |
-| **interface 的 nil 判断** | `var p *int = nil; var i any = p; i == nil` 是 **false**，因为 interface 有类型信息 |
-| **大切片作为参数** | 切片 header 很小（24 字节），传参是值拷贝但底层数组共享 |
-| **int 默认 32 位还是 64 位** | 取决于平台，64 位机器上是 64 位 |
+Channel 用于 goroutine 同步，只在"交替打印"等并发题中出现。
+
+```go
+ch := make(chan int)        // 无缓冲
+ch := make(chan int, 10)    // 有缓冲
+
+ch <- v    // 发送
+v := <-ch  // 接收
+close(ch)  // 关闭
+
+// 遍历直到关闭
+for v := range ch { }
+
+// 非阻塞
+select {
+case v := <-ch:
+default:
+}
+
+// 只读/只写
+func reader(ch <-chan int) {}
+func writer(ch chan<- int) {}
+```
 
 ---
 
-## 二十七、刷题注意事项总结
+## 附录 C：LeetCode  vs ACM 模式对比
 
-| 要点 | 说明 |
-|------|------|
-| 输入用 `bufio.Scanner` | `fmt.Scan` 太慢，大数据量必超时 |
-| 输出用 `bufio.Writer` | 大量输出记得 flush |
-| 切片是引用类型 | `append` 可能改变底层数组地址，注意传参 |
-| map 遍历无序 | 需要有序时先取 keys 再排序 |
-| `for range` 是值拷贝 | 修改 v 不会影响原切片 |
-| 字符串不可修改 | 需要修改时转 `[]byte` 或 `[]rune` |
-| 切片截取共享内存 | 想独立用 copy |
-| 闭包捕获变量 | 循环中小心，需要时复制一份 |
-| `heap.Pop()` 返回 `any` | 需要类型断言 `.(int)` |
-| LeetCode 函数签名 | 不需要处理输入输出，只需实现给定函数 |
+
+|          | LeetCode      | ACM（牛客等）                      |
+| -------- | ------------- | ---------------------------------- |
+| 输入     | 函数参数传入  | 自己从 stdin 读                    |
+| 输出     | return 返回值 | 自己写到 stdout                    |
+| 包名     | 不需要        | 需要`package main` + `func main()` |
+| 输入速度 | 不关心        | 数据量大时`fmt.Scan` 可能超时      |
+| 推荐方式 | 直接写函数体  | `bufio.Scanner` + `bufio.Writer`   |
